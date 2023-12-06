@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="main_platform">
+        <div class="main_block">
+            <h3>Выберите категорию</h3>
+            <table>
+                <tr>
+                    <td>Категория</td>
+                    <td>Бренд</td>
+                </tr>
+                {% for i in categories %}
+                    <tr>
+                        <td>{{ i.parent }}</td>
+                        <td>{{ i.name }}</td>
+                    </tr>   
+                {% endfor %}
+            </table>
+            <div class="create_button">
+                <a style="text-decoration: none; color: white;" href={% url 'category_create' %}>Создать категорию</a>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}
