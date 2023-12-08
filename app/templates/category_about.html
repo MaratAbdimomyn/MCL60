@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{{ category.name }}
+
+
+<p>{{ post.title }}</p>
+
+
+<div class="main_platform">
+    <div class="main_block">
+            <h3>Выберите категорию</h3>
+            <table>
+                <tr>
+                    <td>Категория</td>
+                    <td>Бренд</td>
+                </tr>
+                {% for i in categories %}
+                    <tr>
+                        <td>{{ i.parent }}</td>
+                        <td><a href={% url 'category_about' i.pk %}>{{ i.name }}</a></td>
+                    </tr>   
+                {% endfor %}
+            </table>
+            <div class="create_button">
+                <a style="text-decoration: none; color: white;" href={% url 'category_create' %}>Создать категорию</a>
+            </div>
+        </div>
+    <div class="main_block">
+        <div class="post_about_block" style="flex-direction: column;">
+            {% for post in category.posts.all %}
+            <div>
+                <h3>{{ post.category }} {{ post.title }}</h3>
+                <ul>
+                    <li>Цена: ${{ post.price }}</li>
+                    <li>{{ post.content }}</li>
+                    <li>Телефон: {{ post.contact }}</li>
+                    <li>Создано: {{ post.created_at }}</li>
+                    <li>Продавец: {{ post.author }}</li>
+                </ul>
+            </div>
+            <div>
+                <img class="post_about_images" src="{{ post.image.url }}" alt="post_image">
+            </div>
+            {% endfor %}
+        </div>
+        <br>
+        {% if request.user == post.author %}
+        <div class="create_delete_block">
+        <a class="create_button" href={% url 'post_update' post.pk %}>Редактировать</a>
+        <a class="delete_button" href={% url 'post_delete' post.pk %}>Удалить</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,4 +1,5 @@
 from typing import Any
+from django.db.models.query import QuerySet
 from django.forms.models import BaseModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -84,10 +85,39 @@ class CreateCategoryView(CreateView):
     template_name = 'category_create.html'
     success_url = reverse_lazy('category_list')
 
+class DetailCategoryView(DetailView):
+    model = Category
+    template_name = 'category_about.html'
+    context_object_name = 'category'
+    
+    def get_context_data(self, **kwargs: Any):
+        data = super().get_context_data(**kwargs)
+        data['categories'] = Category.objects.all()
+        return data
+
 class PostListView(ListView):
     model = Post
     template_name = 'post_list.html'
     context_object_name = 'posts'
+
+    def get_queryset(self):
+        if self.request.GET.get("category"):
+            cat = Category.objects.get(name=self.request.GET['category'])
+            print(cat)
+            qs = Post.objects.filter(category = cat)
+            return qs
+        else:
+            return Post.objects.all()
+        """elif:
+            self.request.GET.get("category"):
+            cat = Category.objects.get(name=self.request.GET['category'])
+            if cat == 'Cars':
+                qs = Post.objects.filter(category.parent = cat)"""
+
+    def get_context_data(self, **kwargs: Any):
+        data = super().get_context_data(**kwargs)
+        data['categories'] = Category.objects.all()
+        return data
 
 class CreatePostView(LoginRequiredMixin, CreateView):
     model = Post

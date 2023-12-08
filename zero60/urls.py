@@ -15,6 +15,7 @@ urlpatterns = [
     path('user_list/', UserListView.as_view(), name='user_list'),
     path('category_list', CategoryListView.as_view(), name='category_list'),
     path('category_create/', CreateCategoryView.as_view(), name='category_create'),
+    path('category_about/<int:pk>/', DetailCategoryView.as_view(), name='category_about'),
     path('', PostListView.as_view(), name='post_list'),
     path('post_create/', CreatePostView.as_view(), name='post_create'),
     path('post_update/<int:pk>/', UpdatePostView.as_view(), name='post_update'),

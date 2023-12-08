@@ -9,7 +9,7 @@ class Category(models.Model):
         return self.name
     
 class Post(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name="Раздел")
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name="Раздел", related_name='posts')
     title = models.CharField(max_length=112, verbose_name="Заголовок")
     content = models.TextField(verbose_name="Текст")
     price = models.IntegerField(verbose_name="Цена")

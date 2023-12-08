@@ -4,6 +4,12 @@
     <div class="main_platform">
         <div class="main_block">
             <h3>Список объявлений</h3>
+            <div class="category_block">
+                <a class="category_button" href={% url 'post_list' %}>Всё</a>
+                {% for category in categories %}
+                <a class="category_button" href="?category={{category.name}}">{{ category.name }}</a>
+                {% endfor %}
+            </div>
             <ul class="home_grid">
                 {% for i in posts %}
                     <a class="post_link" href={% url 'post_about' i.pk %}>
